@@ -92,21 +92,30 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 
-const Mui_table = (props: Props) => {
+const Mui_table_update = (props: Props) => {
     const [search, setSearch] = useState<string>("");
     const [myRow, setMyRow] = useState<any>([]);
     
     React.useEffect(() => {
         setMyRow(data.rowList)
     }, [])
-    // const classes = useStyles();
-    const searchBox = (searchedValue: any) => {
-        const newarray = data.rowList.filter((item) => { return item.place.includes(searchedValue.target.value) ||  item.job.includes(searchedValue.target.value) })
+  
+    
+    
+      const searchBox = ((e:any)=>{
+        const newarray:any=[]
+
+        data.rowList.forEach((item:any)=>{
+        if(item.place.includes(e.target.value) || item.job.includes(e.target.value))
+        {
+            newarray.push(item)
+        }
         setMyRow(newarray)
-    }
+        })  
+      })
     return (
         <div  >
-            <h1>-- Details --</h1>
+            <h1>--My Details --</h1>
             <div>
                 <Search >
                     <SearchIconWrapper>
@@ -114,10 +123,10 @@ const Mui_table = (props: Props) => {
                     </SearchIconWrapper>
                     <StyledInputBase
                         value={search}
-                        onChange={(searchedValue) => {
+                        onChange={(e) => {
                             // debugger;
-                            setSearch(searchedValue.target.value)
-                            searchBox(searchedValue)
+                            setSearch(e.target.value)
+                            searchBox(e)
                         }}
                         placeholder="Search here…"
                         inputProps={{ 'aria-label': 'search' }}
@@ -132,6 +141,7 @@ const Mui_table = (props: Props) => {
                                 data.coloumns.map((cols: any) =>
                                     <TableCell >{cols.name}</TableCell>
                                 )}
+                                         
                         </TableRow>
                     </TableHead>
                     <TableBody >
@@ -152,5 +162,4 @@ const Mui_table = (props: Props) => {
         </div>
     )
 }
-export default Mui_table
-
+export default Mui_table_update
